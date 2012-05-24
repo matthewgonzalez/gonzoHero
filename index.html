@@ -1,0 +1,31 @@
+<html>
+<head>
+  <title>gonzoHero.jquery.js</title>
+
+  <!-- The JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="js/gonzoHero.jquery.js" ></script>
+
+  <!-- The CSS -->
+  <link rel="stylesheet" type="text/css" href="css/base.css">
+  <link rel="stylesheet" type="text/css" href="css/gonzoHero.css">
+
+  <!-- Document ready? -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#carousel").gonzoHero({  height: 175 });
+    });
+  </script>
+
+</head>
+<body>
+  <h1>gonzoHero.jquery.js</h1>
+
+  <div id="carousel">
+   <div class="slide"></div>
+   <div class="slide"></div>
+   <div class="slide"></div>
+  </div>
+
+</body>
+</html>
