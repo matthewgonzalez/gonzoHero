@@ -10,17 +10,13 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.gonzoHero #rightControl {
-	position: absolute;
+.gonzoHero .control {
 	font-size: 120px;
-	cursor: pointer;
 	color:#ddd;
 }
 
 .gonzoHero #restartControl {
-	position: absolute;
 	font-size: 50px;
-	cursor: pointer;
 	color:#ddd;
 }
 
