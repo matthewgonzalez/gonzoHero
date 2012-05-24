@@ -65,7 +65,7 @@
         
         // Wrap all .slides with #slideInner div
         slides
-          .wrapAll('<div id="slidesInner"></div>')
+          .wrapAll('<div class="slidesInner"></div>')
           // Float left to display horizontally, readjust .slides width
           .css({
             float : 'left',
@@ -77,23 +77,23 @@
           
                   
         // Set #slideInner width equal to total width of all slides
-        $('#slidesInner', $this).css('width', (slideOuterWidth * numberOfSlides));
+        $('.slidesInner', $this).css('width', (slideOuterWidth * numberOfSlides));
 
         // Create #slideContainer and Remove scrollbar in JS
-        $("#slidesInner").wrap('<div id="slidesContainer"></div>');
-        $("#slidesContainer").css({overflow:"hidden", display: "block"});
+        $(".slidesInner").wrap('<div class="slidesContainer"></div>');
+        $(".slidesContainer").css({overflow:"hidden", display: "block"});
 
         // Insert controls in the DOM
         $this
-          .prepend('<span class="control" id="leftControl">&lsaquo;</span>')
-          .append('<span class="control"  id="rightControl">&rsaquo;</span>')
-          .append('<span class="control"  id="restartControl">&crarr;</span>');
+          .prepend('<span class="control leftControl">&lsaquo;</span>')
+          .append('<span class="control rightControl">&rsaquo;</span>')
+          .append('<span class="control restartControl">&crarr;</span>');
 
         // Place the controls.
-        var controlHeight = $("#slidesContainer").height();
+        var controlHeight = $(".slidesContainer").height();
         $('.gonzoHero .control').css({ height : controlHeight, lineHeight : controlHeight + 'px', top: 0, position: 'absolute', cursor: 'pointer'})
-        $('#rightControl, #restartControl').css({  right : this.options.controlOffset, top : (slideHeight - controlHeight)/2 });
-        $('#leftControl').css({   left  : this.options.controlOffset });
+        $('.rightControl, .restartControl').css({  right : this.options.controlOffset, top : (slideHeight - controlHeight)/2 });
+        $('.leftControl').css({   left  : this.options.controlOffset });
 
         // Slide counter list
         if ( numberOfSlides > 0 ){
@@ -110,7 +110,7 @@
         // Hide left arrow control on first load
         manageControls(currentPosition);
         var autoSlide = 0;
-        var displayedSlide = $('#slidesContainer .slide:first', $this);
+        var displayedSlide = $('.slidesContainer .slide:first', $this);
         
         $this.hover(function(){clearInterval(autoSlide);}, function(){clearInterval(autoSlide); autoAnimate();});
         
@@ -120,7 +120,7 @@
 	        	autoSlide = setInterval(function() {
 	        		displayedSlide = displayedSlide.next();
 	        		
-	        		if(currentPosition==numberOfSlides-1){ currentPosition = 0; displayedSlide = $('#slidesContainer .slide:first', $this);} else{ currentPosition = currentPosition+1 }
+	        		if(currentPosition==numberOfSlides-1){ currentPosition = 0; displayedSlide = $('.slidesContainer .slide:first', $this);} else{ currentPosition = currentPosition+1 }
 	        		
 	        		changeBackground();
 	        		
@@ -128,7 +128,7 @@
 	        		manageControls(currentPosition);
 	        		
 	        		// Move slideInner using margin-left
-	        		$('#slidesInner', $this).stop(true,true).animate({'marginLeft' : slideOuterWidth*(-currentPosition)});
+	        		$('.slidesInner', $this).stop(true,true).animate({'marginLeft' : slideOuterWidth*(-currentPosition)});
 	        	}, animateSpeed);
         	}
         }
@@ -142,25 +142,25 @@
 			// Determine new position
 			
 				clearInterval(autoSlide);
-				if ($(this).attr('id')=='rightControl') {
+				if ($(this).hasClass('rightControl')) {
 					 currentPosition = currentPosition+1; 
 					 displayedSlide = displayedSlide.next();
-				 } else if ($(this).attr('id')=='leftControl'){ 			 
+				 } else if ($(this).hasClass('leftControl')){ 			 
 					 currentPosition = currentPosition-1;
 					 displayedSlide = displayedSlide.prev();
-				 } else if($(this).attr('id')=='restartControl'){ 			 
+				 } else if($(this).hasClass('restartControl')){ 			 
 					 currentPosition = 0;
-					 displayedSlide = $('#slidesContainer .slide:first', $this);
+					 displayedSlide = $('.slidesContainer .slide:first', $this);
 				 } else if ($(this).parent('.slideCounter', $this)){
 				 	currentPosition = $(this).index();
-				 	displayedSlide = $("#slidesContainer .slide:nth-child("+($(this).index()+1)+")", $this);
+				 	displayedSlide = $(".slidesContainer .slide:nth-child("+($(this).index()+1)+")", $this);
 				 } 
 				 
 				changeBackground();
 				// Hide & show controls
 					 manageControls(currentPosition);
 				// Move slideInner using margin-left
-				$('#slidesInner', $this).animate({
+				$('.slidesInner', $this).animate({
 				  'marginLeft' : slideOuterWidth*(-currentPosition)
 				});	
 			});
@@ -178,18 +178,18 @@
 			
 			// Hide left arrow if position is first slide 
 			if(position==0){ 
-				$('#leftControl', $this).hide(); 
-				$('#restartControl', $this).hide();
+				$('.leftControl', $this).hide(); 
+				$('.restartControl', $this).hide();
 			} else { 
-				$('#leftControl', $this).show();
+				$('.leftControl', $this).show();
 			}
 			// Hide right arrow if position is last slide
 			if(position==numberOfSlides-1){ 
-				$('#rightControl', $this).hide();
-				$('#restartControl', $this).show();
+				$('.rightControl', $this).hide();
+				$('.restartControl', $this).show();
 			} else { 
-				$('#rightControl', $this).show(); 
-				$('#restartControl', $this).hide();
+				$('.rightControl', $this).show(); 
+				$('.restartControl', $this).hide();
 			}
 			
 		}	

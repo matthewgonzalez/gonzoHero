@@ -19,14 +19,14 @@
 	color:#ddd;
 }
 
-.gonzoHero #restartControl {
+.gonzoHero .restartControl {
 	font-size: 50px;
 	color:#ddd;
 }
 
-.gonzoHero #rightControl:hover,
-.gonzoHero #leftControl:hover,
-.gonzoHero #restartControl:hover {
+.gonzoHero .rightControl:hover,
+.gonzoHero .leftControl:hover,
+.gonzoHero .restartControl:hover {
 	color:#000;
 	text-shadow: 0px 3px 5px rgba(0,0,0,.3);
 }
