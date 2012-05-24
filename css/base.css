@@ -1,7 +1,10 @@
 
 #carousel{ 
-  width: 660px; 
   margin: 100px;
+}
+
+#carousel .slide {
+	padding: 15px;
 }
 
 .slider-box{
@@ -14,4 +17,12 @@
   height: 150px;
   margin: 10px;
   float: left;
+}
+
+#carousel .slide1 .bgColor {
+	background-color: pink;
+}
+
+#carousel .slide3  {
+	background-color: red;
 }

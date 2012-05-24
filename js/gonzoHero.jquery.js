@@ -23,7 +23,6 @@
         document = window.document,
         defaults = {
             autoAnimate:      true,
-            height:           null,
             speed:            5000,
             controlOffset:    -60
         };
@@ -48,19 +47,21 @@
         // Place initialization logic here
         // You already have access to the DOM element and the options via the instance, 
         // e.g., this.element and this.options
+        
         var $this             = $(this.el);
+        $this.addClass('gonzoHero');
+        
         var currentPosition   = 0;
         var slides            = $this.children(".slide");
         var slideWidth        = slides.width();
         var slideOuterWidth   = slides.outerWidth(true);
         var numberOfSlides    = slides.length;
-        var slideHeight       = this.options.height;
+        var slideHeight       = slides.height(true);
+        var slideOuterHeight  = slides.outerHeight(true);
         var animateSlides     = this.options.autoAnimate;
         var animateSpeed      = this.options.speed;
         
-        $this
-          .addClass('gonzoHero')
-          .css({ height: slideHeight, position: 'relative'});
+        $this.css({ height: slideOuterHeight, width: slideOuterWidth, position: 'relative'});
         
         // Wrap all .slides with #slideInner div
         slides
@@ -71,9 +72,10 @@
             width : slideWidth,
             position : 'relative',
             height : slideHeight,
-          });
+          })
+          .prepend('<span class="bgColor"></span>');
           
-          
+                  
         // Set #slideInner width equal to total width of all slides
         $('#slidesInner', $this).css('width', (slideOuterWidth * numberOfSlides));
 
@@ -90,7 +92,7 @@
         // Place the controls.
         var controlHeight = $("#slidesContainer").height();
         $('.gonzoHero .control').css({ height : controlHeight, lineHeight : controlHeight + 'px', top: 0, position: 'absolute', cursor: 'pointer'})
-        $('#rightControl, #restartControl').css({  right : this.options.controlOffset });
+        $('#rightControl, #restartControl').css({  right : this.options.controlOffset, top : (slideHeight - controlHeight)/2 });
         $('#leftControl').css({   left  : this.options.controlOffset });
 
         // Slide counter list
@@ -131,6 +133,7 @@
         	}
         }
         
+        $this.css({backgroundColor: displayedSlide.children(".bgColor").css("background-color")});
         autoAnimate();
 		
 		// Create event listeners for .controls clicks
@@ -173,7 +176,7 @@
 			$(".slideCounter li:nth-child("+ (position+1) + ")", $this).addClass("selected");
 			$(".slideCounter li:not(:nth-child("+ (position+1) + "))", $this).removeClass("selected"); 
 			
-			// Hide left arrow if position is first slide & remove "selected" class from last slideCounter
+			// Hide left arrow if position is first slide 
 			if(position==0){ 
 				$('#leftControl', $this).hide(); 
 				$('#restartControl', $this).hide();
