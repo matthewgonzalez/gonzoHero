@@ -43,6 +43,22 @@ Example:
             $("#eeSlideshow").gonzoHero({autoAnimate: false, speed: 6000, controlOffset: -100});
       }
 
+###BONUS!!!
+
+gonzoHero has a "bonus" feature that allows the background-color of your slideshow to smoothly transition between slides. HOW CAN I DO THIS?! THERE'S NO OPTION FOR IT!
+
+Be calm. gonzoHero prepends automatically unobtrusive SPANs into each of your slides with the class "bgColor". 
+
+All you must do is define the background-color for the "bgColor" SPAN and gonzoHero takes care of the slide color transitioning for you.
+
+Example:
+
+	#someHero .slide1 .bgColor { background-color: hotpink } // This will create a smooth background-color transition between ".slide1" and its adjacent slides
+
+To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/18/).
+
+Happy hero-ing!
+
 =====
 
 ##Features currently being developed:
