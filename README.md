@@ -4,7 +4,7 @@ _Simple, elegant CSS3 jQuery slider solution that just works (and more)._
 
 =====
 
-[DEMO](http://jsfiddle.net/YagRL/18/)
+[DEMO](http://jsfiddle.net/YagRL/19/)
 
 gonzoHero is a lightweight and easy to setup jQuery slider, turning your images, elements, and CTAs into an elegant slider.
 
@@ -55,7 +55,7 @@ Example:
 
 	#someHero .slide1 .bgColor { background-color: hotpink } // This will create a smooth background-color transition between ".slide1" and its adjacent slides
 
-To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/18/).
+To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/19/).
 
 Happy hero-ing!
 
