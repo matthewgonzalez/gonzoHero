@@ -20,7 +20,7 @@ Simply create a series of DIVs with the class "slide" nested inside another DIV.
 
 Then call the gonzoHero function on the wrapper DIV.
 
-$("#someHero").gonzoHero();
+	$("#someHero").gonzoHero();
 
 
 Alternatively, you can pass a hash of parameters. Below are the defaults.
