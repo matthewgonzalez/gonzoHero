@@ -118,12 +118,9 @@
 
     this.autoSlide = 0;
     this.displayedSlide = $('#slidesContainer .slide:first', $this);
-      
-    $this.hover(  function(){ clearInterval( self.autoSlide ) }, 
-                  function(){
-                    clearInterval( self.autoSlide ); 
-                    self.autoAnimate();
-                  } );
+    
+    if (this.autoSlide) 
+      this.bindHover();
     
     $this.css( {backgroundColor: this.displayedSlide.children(".bgColor").css("background-color")} );
 
@@ -202,8 +199,9 @@
 
   gonzoHero.prototype.advance = function(direction, which) {
     var $this = $(this.el);
-    clearInterval( this.autoSlide );
-
+    
+    if (this.autoSlide) 
+        clearInterval( this.autoSlide );
     
     if ( direction == 'next' && (this.currentPosition != this.numberOfSlides-1) ) {
       this.currentPosition  = this.currentPosition + 1; 
@@ -312,11 +310,11 @@
     var $this = $(this.el);
 
     $(document).bind('touchmove', function(event){
-
       if ( !self.isValidTouch(event) || !self.active  ) return;
-
       event.preventDefault();
-      clearInterval( self.autoSlide );
+
+      if (this.autoSlide) 
+        clearInterval( this.autoSlide );
 
       // x-point from start
       var x = (event.originalEvent.touches[0].pageX - self.startX);
@@ -334,6 +332,15 @@
         $('#slidesInner', $this).css({ marginLeft: moveString });
 
     });
+  };
+
+  gonzoHero.prototype.bindHover = function() {
+    $this.hover(  function(){ clearInterval( self.autoSlide ) }, 
+                  function(){
+                    clearInterval( self.autoSlide ); 
+                    self.autoAnimate();
+                  }
+              );
   };
 
   gonzoHero.prototype.ghNext = function(){
