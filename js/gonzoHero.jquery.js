@@ -79,8 +79,7 @@
       width : this.slideWidth,
       position : 'relative',
       height : this.slideHeight,
-    }).prepend('<span class="bgColor"></span>');
-        
+    }).prepend('<span class="bgColor"></span>'); 
                 
     // Set #slideInner width equal to total width of all slides
     $('#slidesInner', $this).css('width', ( this.slideOuterWidth * this.numberOfSlides));
@@ -140,6 +139,7 @@
   // during transition. 
   gonzoHero.prototype.changeBackground = function() {
     var bgColor = this.displayedSlide.children(".bgColor").css("background-color");
+    if (bgColor == "rgba(0, 0, 0, 0)") return;
     $(this.el).stop().animate({backgroundColor:bgColor},500);
   };
 
