@@ -4,7 +4,7 @@ _Simple, elegant CSS3 jQuery slider solution that just works (and more)._
 
 =====
 
-[DEMO](http://jsfiddle.net/YagRL/19/)
+[VIEW DEMO](http://jsfiddle.net/YagRL/19/)
 
 gonzoHero is a lightweight and easy to setup jQuery slider, turning your images, elements, and CTAs into an elegant slider.
 
