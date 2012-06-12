@@ -49,7 +49,7 @@
   }
 
   gonzoHero.prototype.init = function () {
-  	
+    
   
     // Place initialization logic here
     // You already have access to the DOM element and the options via the instance, 
@@ -75,7 +75,7 @@
     $this.bind( this.options.previousEvents, function(){ self.ghPrev() });
 
 
-	$this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
+  $this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
       
     // Wrap all .slides with .slideInner div
     this.slides.wrapAll('<div class="slidesInner"></div>').css({
@@ -94,11 +94,12 @@
     $(".slidesInner").wrap('<div class="slidesContainer"></div>');
     $(".slidesContainer").css({overflow:"hidden", display: "block"});
 
+
     // Insert controls in the DOM
     if (this.options.showSideControls)
-      $this.prepend('<span class="control leftControl">&lsaquo;</span>')
-           .append('<span class="control rightControl">&rsaquo;</span>')
-           .append('<span class="control restartControl">&crarr;</span>');
+      this.makeControls();
+
+    this.makeControlsNonSelectable();
 
     // Place the controls.
     var controlHeight = $(".slidesContainer").height();
@@ -174,6 +175,23 @@
       $('.rightControl', $this).show(); 
       if (this.options.allowLoopback)  $('.restartControl', $this).hide();
     }
+  };
+
+  gonzoHero.prototype.makeControls = function() {
+    $(this.el).prepend('<span class="control leftControl">&lsaquo;</span>')
+              .append('<span class="control rightControl">&rsaquo;</span>')
+              .append('<span class="control restartControl">&crarr;</span>');
+  };
+
+  gonzoHero.prototype.makeControlsNonSelectable = function(first_argument) {
+    $('.control').css({
+      "-webkit-touch-callout": "none",
+      "-webkit-user-select":   "none",
+      "-khtml-user-select":    "none",
+      "-moz-user-select":      "none",
+      "-ms-user-select":       "none",
+      "user-select":           "none"
+    });
   };
 
   // Create event listeners for .controls clicks
