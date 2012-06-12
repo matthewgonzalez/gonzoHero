@@ -1,12 +1,12 @@
 # gonzohero.jquery.js
 
-_Simple, elegant CSS3 jQuery slider solution that just works (and more)._
+_Simple, elegant, mobile-friendly CSS3 jQuery slider solution that just works (and more)._
 
 =====
 
-[VIEW DEMO](http://jsfiddle.net/YagRL/19/)
+[VIEW DEMO](http://jsfiddle.net/YagRL/20/)
 
-gonzoHero is a lightweight and easy to setup jQuery slider, turning your images, elements, and CTAs into an elegant slider.
+gonzoHero is an extremely versatile, lightweight and easy to setup mobile/touch supported jQuery slider, turning your images, elements, and CTAs into an elegant slider.
 
 ## How to use
 
@@ -36,6 +36,19 @@ Alternatively, you can pass a hash of parameters. Below are the defaults.
             // Determines the position of the slide controls
             controlOffset:             -60
 
+            // Toggles mobile touch/drag controls
+            enableDrag:             true
+
+            // Toggle on/off side controls
+            showSideControls:             true
+
+            // Add a space-delimited set of events which you can programmatically trigger to cause gonzoHero to advance and go back.
+            nextEvents:       "ghNext"
+            previousEvents:   "ghPrev"
+
+            // Slides revert to beginning after last slide
+            allowLoopback:             true
+
             
 Example:
             
@@ -47,15 +60,15 @@ Example:
 
 gonzoHero has a "bonus" feature that allows the background-color of your slideshow to smoothly transition between slides. HOW CAN I DO THIS?! THERE'S NO OPTION FOR IT!
 
-Be calm. gonzoHero prepends automatically unobtrusive SPANs into each of your slides with the class "bgColor". 
+Be calm. gonzoHero automatically prepends unobtrusive SPANs into each of your slides with the class "bgColor". 
 
 All you must do is define the background-color for the "bgColor" SPAN and gonzoHero takes care of the slide color transitioning for you.
 
 Example:
 
-	#someHero .slide1 .bgColor { background-color: hotpink } // This will create a smooth background-color transition between ".slide1" and its adjacent slides
+	#someHero .slide2 .bgColor { background-color: hotpink } // This will create a smooth background-color transition between ".slide1" and its adjacent slides
 
-To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/19/).
+To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/20/).
 
 Happy hero-ing!
 
@@ -63,6 +76,5 @@ Happy hero-ing!
 
 ##Features currently being developed:
 
-- Kinetic touch/drag controls
 - Default styles option
 - Support for early IE browsers (ie. IE7)

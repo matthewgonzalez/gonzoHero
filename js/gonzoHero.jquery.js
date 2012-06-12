@@ -25,7 +25,7 @@
           autoAnimate:      true,
           speed:            5000,
           controlOffset:    -60,    // position of controls relative to edge of carousel
-          enableDrag:       false,
+          enableDrag:       true,
           showSideControls: true,
           nextEvents:       "ghNext",
           previousEvents:   "ghPrev",
@@ -49,10 +49,15 @@
   }
 
   gonzoHero.prototype.init = function () {
+  	
+  
     // Place initialization logic here
     // You already have access to the DOM element and the options via the instance, 
     // e.g., this.element and this.options
     var $this               = $(this.el);
+    
+    $this.addClass('gonzoHero'); // this needs to be set before the variables are defined
+    
     var self                = this;
     this.currentPosition    = 0;
     this.slides             = $this.children(".slide");
@@ -69,36 +74,37 @@
     $this.bind( this.options.nextEvents, function(){ self.ghNext() });
     $this.bind( this.options.previousEvents, function(){ self.ghPrev() });
 
-    $this.addClass('gonzoHero');
 
-    $this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
+	$this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
       
-    // Wrap all .slides with #slideInner div
-    this.slides.wrapAll('<div id="slidesInner"></div>').css({
+    // Wrap all .slides with .slideInner div
+    this.slides.wrapAll('<div class="slidesInner"></div>').css({
       float : 'left',
       width : this.slideWidth,
       position : 'relative',
       height : this.slideHeight,
     }).prepend('<span class="bgColor"></span>'); 
+    
+    
                 
-    // Set #slideInner width equal to total width of all slides
-    $('#slidesInner', $this).css('width', ( this.slideOuterWidth * this.numberOfSlides));
+    // Set .slideInner width equal to total width of all slides
+    $('.slidesInner', $this).css('width', ( this.slideOuterWidth * this.numberOfSlides));
 
-    // Create #slideContainer and Remove scrollbar in JS
-    $("#slidesInner").wrap('<div id="slidesContainer"></div>');
-    $("#slidesContainer").css({overflow:"hidden", display: "block"});
+    // Create .slideContainer and Remove scrollbar in JS
+    $(".slidesInner").wrap('<div class="slidesContainer"></div>');
+    $(".slidesContainer").css({overflow:"hidden", display: "block"});
 
     // Insert controls in the DOM
     if (this.options.showSideControls)
-      $this.prepend('<span class="control" id="leftControl">&lsaquo;</span>')
-           .append('<span class="control"  id="rightControl">&rsaquo;</span>')
-           .append('<span class="control"  id="restartControl">&crarr;</span>');
+      $this.prepend('<span class="control leftControl">&lsaquo;</span>')
+           .append('<span class="control rightControl">&rsaquo;</span>')
+           .append('<span class="control restartControl">&crarr;</span>');
 
     // Place the controls.
-    var controlHeight = $("#slidesContainer").height();
+    var controlHeight = $(".slidesContainer").height();
     $('.gonzoHero .control').css({ height : controlHeight, lineHeight : controlHeight + 'px', top: 0, position: 'absolute', cursor: 'pointer'})
-    $('#rightControl, #restartControl').css({  right : this.options.controlOffset, top : ( this.slideHeight - controlHeight)/2 });
-    $('#leftControl').css({   left  : this.options.controlOffset });
+    $('.rightControl, .restartControl').css({  right : this.options.controlOffset, top : ( this.slideHeight - controlHeight)/2 });
+    $('.leftControl').css({   left  : this.options.controlOffset });
 
     // Slide counter list    
     if ( this.numberOfSlides > 0 ){
@@ -116,7 +122,7 @@
     this.manageControls(this.currentPosition);
 
     this.autoSlide = 0;
-    this.displayedSlide = $('#slidesContainer .slide:first', $this);
+    this.displayedSlide = $('.slidesContainer .slide:first', $this);
     
     if (this.autoSlide) 
       this.bindHover();
@@ -153,20 +159,20 @@
 
     // Hide left arrow if position is first slide 
     if(position==0){ 
-      $('#leftControl', $this).hide(); 
-      $('#restartControl', $this).hide();
+      $('.leftControl', $this).hide(); 
+      $('.restartControl', $this).hide();
     } else { 
-      $('#leftControl', $this).show();
+      $('.leftControl', $this).show();
     }
 
     // Hide right arrow if position is last slide
     if( position == this.numberOfSlides-1 ){ 
-      $('#rightControl', $this).hide();
-      if (this.options.allowLoopback) $('#restartControl', $this).show();
+      $('.rightControl', $this).hide();
+      if (this.options.allowLoopback) $('.restartControl', $this).show();
     } 
     else { 
-      $('#rightControl', $this).show(); 
-      if (this.options.allowLoopback)  $('#restartControl', $this).hide();
+      $('.rightControl', $this).show(); 
+      if (this.options.allowLoopback)  $('.restartControl', $this).hide();
     }
   };
 
@@ -181,13 +187,13 @@
       // Determine new position
       clearInterval( self.autoSlide );
       
-      if ( $(this).attr('id')       == 'rightControl') {
+      if ( $(this).hasClass('rightControl') ){
         self.advance('next');
       } 
-      else if ( $(this).attr('id')  == 'leftControl' ){ 
+      else if ( $(this).hasClass('leftControl') ){ 
         self.advance('prev');
       } 
-      else if ( $(this).attr('id')  == 'restartControl' ) {
+      else if ( $(this).hasClass('restartControl') ) {
         self.advance('restart');
       } 
       else{
@@ -214,18 +220,18 @@
     else if ( direction == 'restart' || (this.currentPosition == this.numberOfSlides-1) && isNaN(which) ){
       if (!this.options.allowLoopback) return;
       this.currentPosition  = 0;
-      this.displayedSlide   = $('#slidesContainer .slide:first', $this);
+      this.displayedSlide   = $('.slidesContainer .slide:first', $this);
     } 
     else if ( direction == 'goto'){
       this.currentPosition  = which;
-      this.displayedSlide   = $("#slidesContainer .slide:nth-child(" + ( which + 1 ) + ")", $this);
+      this.displayedSlide   = $(".slidesContainer .slide:nth-child(" + ( which + 1 ) + ")", $this);
     } 
 
     this.changeBackground();
     this.manageControls( this.currentPosition );
     
     // Move slideInner using margin-left
-    $('#slidesInner', $this).animate({
+    $('.slidesInner', $this).animate({
       'marginLeft' : this.slideOuterWidth*( -this.currentPosition )
     });
   };
@@ -239,7 +245,7 @@
       if( self.currentPosition == self.numberOfSlides-1 ){
         if (!self.options.allowLoopback) return;
         self.currentPosition = 0; 
-        self.displayedSlide = $('#slidesContainer .slide:first', $this);
+        self.displayedSlide = $('.slidesContainer .slide:first', $this);
       } 
       else{ 
         self.displayedSlide = self.displayedSlide.next();
@@ -252,7 +258,7 @@
       self.manageControls(self.currentPosition);
 
       // Move slideInner using margin-left
-      $('#slidesInner', $this).stop(true,true)
+      $('.slidesInner', $this).stop(true,true)
                               .animate( {'marginLeft' : self.slideOuterWidth*(-self.currentPosition)} );
     }, this.options.speed );
   };
@@ -324,12 +330,12 @@
       var moveString = null;
       var moveString = dx < 0 ? "-=" + Math.abs(dx) : "+=" + dx;
 
-      var $slidesInner = $('#slidesInner', $this);
+      var $slidesInner = $('.slidesInner', $this);
       var ml = parseInt($slidesInner.css('margin-left'));
-      var w  = $slidesInner.outerWidth() - $("#slidesContainer").outerWidth();
+      var w  = $slidesInner.outerWidth() - $(".slidesContainer").outerWidth();
 
       if ( (ml <= 0 && dx > 0) || (ml > -w && dx < 0 ) )
-        $('#slidesInner', $this).css({ marginLeft: moveString });
+        $('.slidesInner', $this).css({ marginLeft: moveString });
 
     });
   };

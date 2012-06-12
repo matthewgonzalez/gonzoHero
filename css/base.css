@@ -1,3 +1,6 @@
+body {
+	background:  #eee;;
+}
 
 #carousel{ 
   margin: 100px;
@@ -19,7 +22,11 @@
   float: left;
 }
 
-#carousel .slide1 .bgColor {
+#carousel .slide .bgColor {
+	background: #fff;
+}
+
+#carousel .slide2 .bgColor {
 	background-color: pink;
 }
 
