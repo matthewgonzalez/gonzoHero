@@ -64,25 +64,28 @@
     this.slideWidth         = this.slides.width();
     this.slideOuterWidth    = this.slides.outerWidth(true);
     this.numberOfSlides     = this.slides.length;
-    this.slideHeight        = this.slides.height(true);
+    this.slideHeight        = this.slides.height();
     this.slideOuterHeight   = this.slides.outerHeight(true);
 
     if ( this.isTouchDevice() && this.options.enableDrag )
           this.bindTouchEvents(); 
-
+          
     // Custom next and previous events
     $this.bind( this.options.nextEvents, function(){ self.ghNext() });
     $this.bind( this.options.previousEvents, function(){ self.ghPrev() });
 
 
   $this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
-      
+  
+  
+  
+  
     // Wrap all .slides with .slideInner div
     this.slides.wrapAll('<div class="slidesInner"></div>').css({
       float : 'left',
       width : this.slideWidth,
       position : 'relative',
-      height : this.slideHeight,
+      height : this.slideHeight
     }).prepend('<span class="bgColor"></span>'); 
     
     
@@ -91,8 +94,8 @@
     $('.slidesInner', $this).css('width', ( this.slideOuterWidth * this.numberOfSlides));
 
     // Create .slideContainer and Remove scrollbar in JS
-    $(".slidesInner").wrap('<div class="slidesContainer"></div>');
-    $(".slidesContainer").css({overflow:"hidden", display: "block"});
+    $(".slidesInner", $this).wrap('<div class="slidesContainer"></div>');
+    $(".slidesContainer", $this).css({overflow:"hidden", display: "block"});
 
 
     // Insert controls in the DOM
@@ -101,11 +104,6 @@
 
     this.makeControlsNonSelectable();
 
-    // Place the controls.
-    var controlHeight = $(".slidesContainer").height();
-    $('.gonzoHero .control').css({ height : controlHeight, lineHeight : controlHeight + 'px', top: 0, position: 'absolute', cursor: 'pointer'})
-    $('.rightControl, .restartControl').css({  right : this.options.controlOffset, top : ( this.slideHeight - controlHeight)/2 });
-    $('.leftControl').css({   left  : this.options.controlOffset });
 
     // Slide counter list    
     if ( this.numberOfSlides > 0 ){
@@ -114,10 +112,12 @@
         $(".slideCounter", $this).append('<li class="control"></li>');
       }
     }
-
-    $("ul.slideCounter", $this).css({ float: "left", position:"absolute", bottom: -45, left: "50%" });
-    $("ul.slideCounter", $this).css({ marginLeft: "-"+ ($("ul.slideCounter", $this).outerWidth(true))/2+"px" });
-    $("ul.slideCounter li", $this).css({ cursor: "pointer"});
+    
+    
+    this.positionControls();
+   $this.resize( function() {
+      self.positionControls();
+    });
     
     // Hide left arrow control on first load
     this.manageControls(this.currentPosition);
@@ -184,7 +184,7 @@
   };
 
   gonzoHero.prototype.makeControlsNonSelectable = function(first_argument) {
-    $('.control').css({
+    $('.control', $(this.el)).css({
       "-webkit-touch-callout": "none",
       "-webkit-user-select":   "none",
       "-khtml-user-select":    "none",
@@ -194,6 +194,27 @@
     });
   };
 
+  gonzoHero.prototype.positionControls = function() {
+    
+      var self = this;
+      var $this = $(this.el);
+      
+      // Place the controls.
+      
+      $('.leftControl, .rightControl, .restartControl', $this).css({ height : $this.height(), lineHeight : $this.height() + 'px', top: 0, position: 'absolute', cursor: 'pointer', zIndex: 333});
+      $('.rightControl, .restartControl', $this).css({  right : this.options.controlOffset, top : 0 });
+      $('.leftControl', $this).css({   left  : this.options.controlOffset });
+      
+      var controlWidth = 0;
+      $("ul.slideCounter li", $this).each(function() {
+            controlWidth = controlWidth + $(this).outerWidth(true);
+      });
+      
+      $("ul.slideCounter", $this).css({ float: "left", position:"absolute", bottom: -45, left:  ($this.width())/2 });
+      $("ul.slideCounter", $this).css({ marginLeft: "-"+ controlWidth/2+"px" });
+      $("ul.slideCounter li", $this).css({ cursor: "pointer"});
+  };
+  
   // Create event listeners for .controls clicks
   gonzoHero.prototype.controlListener = function() {
     var self = this;
@@ -417,3 +438,13 @@
 //    have jQuery UI on the 
 //    page. 
 (function(d){d.each(["backgroundColor","borderBottomColor","borderLeftColor","borderRightColor","borderTopColor","color","outlineColor"],function(f,e){d.fx.step[e]=function(g){if(!g.colorInit){g.start=c(g.elem,e);g.end=b(g.end);g.colorInit=true}g.elem.style[e]="rgb("+[Math.max(Math.min(parseInt((g.pos*(g.end[0]-g.start[0]))+g.start[0]),255),0),Math.max(Math.min(parseInt((g.pos*(g.end[1]-g.start[1]))+g.start[1]),255),0),Math.max(Math.min(parseInt((g.pos*(g.end[2]-g.start[2]))+g.start[2]),255),0)].join(",")+")"}});function b(f){var e;if(f&&f.constructor==Array&&f.length==3){return f}if(e=/rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(f)){return[parseInt(e[1]),parseInt(e[2]),parseInt(e[3])]}if(e=/rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(f)){return[parseFloat(e[1])*2.55,parseFloat(e[2])*2.55,parseFloat(e[3])*2.55]}if(e=/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(f)){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}if(e=/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(f)){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}if(e=/rgba\(0, 0, 0, 0\)/.exec(f)){return a.transparent}return a[d.trim(f).toLowerCase()]}function c(g,e){var f;do{f=d.curCSS(g,e);if(f!=""&&f!="transparent"||d.nodeName(g,"body")){break}e="backgroundColor"}while(g=g.parentNode);return b(f)}var a={aqua:[0,255,255],azure:[240,255,255],beige:[245,245,220],black:[0,0,0],blue:[0,0,255],brown:[165,42,42],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgrey:[169,169,169],darkgreen:[0,100,0],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkviolet:[148,0,211],fuchsia:[255,0,255],gold:[255,215,0],green:[0,128,0],indigo:[75,0,130],khaki:[240,230,140],lightblue:[173,216,230],lightcyan:[224,255,255],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightyellow:[255,255,224],lime:[0,255,0],magenta:[255,0,255],maroon:[128,0,0],navy:[0,0,128],olive:[128,128,0],orange:[255,165,0],pink:[255,192,203],purple:[128,0,128],violet:[128,0,128],red:[255,0,0],silver:[192,192,192],white:[255,255,255],yellow:[255,255,0],transparent:[255,255,255]}})(jQuery);
+
+/*
+ * jQuery resize event - v1.1 - 3/14/2010
+ * http://benalman.com/projects/jquery-resize-plugin/
+ * 
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.width(),h:l.height()});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.width();r.h=p!==c?p:q.height();n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.width(),l=n.height(),o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
