@@ -75,7 +75,7 @@
     $this.bind( this.options.previousEvents, function(){ self.ghPrev() });
 
 
-  $this.css({ height: this.slideOuterHeight, width: this.slideOuterWidth, position: 'relative'});
+  $this.css({  position: 'relative' });
   
   
   
@@ -114,9 +114,12 @@
     }
     
     
-    this.positionControls();
-   $this.resize( function() {
-      self.positionControls();
+   this.positionControls();
+    
+   $this.bind( "resize", function(e) {
+      self.reposition();
+      
+      self.advance('goto', self.currentPosition);
     });
     
     // Hide left arrow control on first load
@@ -198,7 +201,6 @@
     
       var self = this;
       var $this = $(this.el);
-      
       // Place the controls.
       
       $('.leftControl, .rightControl, .restartControl', $this).css({ height : $this.height(), lineHeight : $this.height() + 'px', top: 0, position: 'absolute', cursor: 'pointer', zIndex: 333});
@@ -214,6 +216,34 @@
       $("ul.slideCounter", $this).css({ marginLeft: "-"+ controlWidth/2+"px" });
       $("ul.slideCounter li", $this).css({ cursor: "pointer"});
   };
+  
+  gonzoHero.prototype.reposition = function() {
+    var self = this;
+    var $this = $(this.el);
+    
+    self.positionControls();
+    
+    
+    var slideWidth = 0;
+    $('.slide', $this).each(function(){
+       $(this).css({
+        float : 'left',
+        width : $this.width(),
+        position : 'relative',
+        height : $this.height()
+      })
+      slideWidth = $(this).width();
+    });
+    
+    
+    $('.slidesInner', $this).css('width', ( $this.width() * self.numberOfSlides));
+    
+    
+     self.slideWidth         = $('.slide', $this).width();
+     self.slideOuterWidth    = slideWidth;
+     self.slideHeight        = $('.slide', $this).height();
+     self.slideOuterHeight   = $('.slide', $this).outerHeight();
+  }
   
   // Create event listeners for .controls clicks
   gonzoHero.prototype.controlListener = function() {
@@ -270,9 +300,10 @@
     this.manageControls( this.currentPosition );
     
     // Move slideInner using margin-left
-    $('.slidesInner', $this).animate({
-      'marginLeft' : this.slideOuterWidth*( -this.currentPosition )
-    });
+    
+      $('.slidesInner', $this).animate({
+        'marginLeft' : this.slideOuterWidth*( -this.currentPosition )
+      });
   };
 
   gonzoHero.prototype.autoAnimate = function() {
