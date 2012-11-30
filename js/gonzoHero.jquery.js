@@ -63,7 +63,7 @@
     this.slides             = $this.children(".slide");
     this.slideWidth         = $this.width();
     this.numberOfSlides     = this.slides.length;
-    this.slideHeight        = $this.height();
+    this.slideHeight        = this.slides.height();
 
     if ( this.isTouchDevice() && this.options.enableDrag )
           this.bindTouchEvents(); 
@@ -82,7 +82,6 @@
     this.slides.wrapAll('<div class="slidesInner"></div>').css({
       float : 'left',
       position : 'relative',
-      height: this.slideHeight,
       width: this.slideWidth
     }).prepend('<span class="bgColor"></span>'); 
     
@@ -93,7 +92,7 @@
 
     // Create .slideContainer and Remove scrollbar in JS
     $(".slidesInner", $this).wrap('<div class="slidesContainer"></div>');
-    $(".slidesContainer", $this).css({overflow:"hidden", display: "block", height: this.slideHeight});
+    $(".slidesContainer", $this).css({overflow:"hidden", display: "block"});
 
 
     // Insert controls in the DOM
@@ -198,7 +197,7 @@
       var $this = $(this.el);
       // Place the controls.
       
-      $('.leftControl, .rightControl, .restartControl', $this).css({ height : $this.height(), lineHeight : $this.height() + 'px', top: 0, position: 'absolute', cursor: 'pointer', zIndex: 333});
+      $('.leftControl, .rightControl, .restartControl', $this).css({ height : this.slides.height(), lineHeight : this.slides.height() + 'px', top: 0, position: 'absolute', cursor: 'pointer', zIndex: 333});
       $('.rightControl, .restartControl', $this).css({  right : this.options.controlOffset, top : 0 });
       $('.leftControl', $this).css({   left  : this.options.controlOffset });
       
@@ -218,10 +217,7 @@
     
     
         clearTimeout( self.autoSlide ); 
-        
-        self.positionControls();
          
-         $(".slidesContainer", $this).css({ height: $this.height()});
          $('.slidesInner', $this).css('width', ( $this.width() * self.numberOfSlides));
         
         var slideWidth = 0;
@@ -230,17 +226,19 @@
            $(this).css({
             float : 'left',
             width : $(this).closest(".gonzoHero").width(),
-            position : 'relative',
-            height : $(this).closest(".gonzoHero").height()
+            position : 'relative'
           })
           slideWidth = $(this).closest(".gonzoHero").width();
-          slideHeight = $(this).closest(".gonzoHero").height();
         });
         
         
         
          self.slideWidth    = slideWidth;
          self.slideHeight   = slideHeight;
+         
+         
+         
+         self.positionControls();
            
          self.advance('goto', self.currentPosition);
     
@@ -336,7 +334,7 @@
 
   gonzoHero.prototype.bindTouchstart = function() {
     var self = this;
-
+    
     $('.slide', this.el).bind('touchstart', function(event){
       if ( !self.isValidTouch(event) ) return;
       event.preventDefault();
@@ -344,6 +342,7 @@
       self.speedHelper = { startT: new Date().getTime(), startX: self.startX };
       self.lastSeenX = 0;
       self.active = true;
+      clearTimeout( self.autoSlide );
     });
   };
 
@@ -351,7 +350,7 @@
     var self = this;
     var $this = $(this.el);
 
-    $(document).bind('touchend', function(event){
+    $('.slide', this.el).bind('touchend', function(event){
       var closestSlide = { index: null, distance: null };
 
       $.each(self.slides, function(k,v){
@@ -372,6 +371,9 @@
       }
 
       self.active = false;
+      
+      
+      if ( self.options.autoAnimate ) self.autoAnimate();
 
     });
   };
