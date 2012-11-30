@@ -1,12 +1,12 @@
 # gonzohero.jquery.js
 
-_Simple, elegant, mobile-friendly CSS3 jQuery slider solution that just works (and more)._
+_Simple, elegant, responsive, and mobile-friendly CSS3 jQuery slider solution that just works (and more)._
 
 =====
 
-[VIEW DEMO](http://jsfiddle.net/YagRL/21/)
+[VIEW DEMO](http://jsfiddle.net/YagRL/24/)
 
-gonzoHero is an extremely versatile, lightweight and easy to setup mobile/touch supported jQuery slider, turning your images, elements, and CTAs into an elegant slider.
+gonzoHero is an extremely versatile, lightweight and easy to setup mobile/touch supported jQuery slider, turning your images, elements, and CTAs into an elegant responsive slider.
 
 ## How to use
 
@@ -68,7 +68,7 @@ Example:
 
 	#someHero .slide2 .bgColor { background-color: hotpink } // This will create a smooth background-color transition between ".slide1" and its adjacent slides
 
-To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/21/).
+To see this color transitioning in action [view the demo](http://jsfiddle.net/YagRL/24/).
 
 Happy hero-ing!
 

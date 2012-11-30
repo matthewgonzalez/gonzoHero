@@ -10,42 +10,41 @@
 }
 
 .gonzoHero .slide {
-   height: 250px;
-   width: 660px;
+   width: 100%;
 }
 
 .gonzoHero .control {
-	font-size: 120px;
-	color:#ddd;
+  font-size: 120px;
+  color:#ddd;
 }
 
 .gonzoHero .restartControl {
-	font-size: 50px;
-	color:#ddd;
+  font-size: 50px;
+  color:#ddd;
 }
 
 .gonzoHero .rightControl:hover,
 .gonzoHero .leftControl:hover,
 .gonzoHero .restartControl:hover {
-	color:#000;
-	text-shadow: 0px 3px 5px rgba(0,0,0,.3);
+  color:#000;
+  text-shadow: 0px 3px 5px rgba(0,0,0,.3);
 }
 
 .gonzoHero .slideCounter {
-	padding: 0px;
+  padding: 0px;
 }
 
 .gonzoHero .slideCounter li {
-	display: block;
-	float: left;
-	height: 8px;
-	width: 8px;
-	background: #fff;
-	margin: 0px 5px;
-	border-color: #fff #999 #999 #fff;
-	border-width: 1px;
-	border-style: solid;
-	-webkit-border-radius: 5px;
+  display: block;
+  float: left;
+  height: 8px;
+  width: 8px;
+  background: #fff;
+  margin: 0px 5px;
+  border-color: #fff #999 #999 #fff;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -54,6 +53,6 @@
 }
 
 .gonzoHero .slideCounter li.selected {
-	background: #ccc;
-	border-color: #999 #fff #fff #999;
+  background: #ccc;
+  border-color: #999 #fff #fff #999;
 }
